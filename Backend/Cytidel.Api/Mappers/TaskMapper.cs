@@ -7,7 +7,7 @@ namespace Cytidel.Api.Mappers
 {
     public static class TaskMapper
     {
-        public static TaskModel ToModel(TaskEntity entity)
+        public static TaskModel ToModel(this TaskEntity entity)
         {
             return new TaskModel
             {
@@ -20,11 +20,10 @@ namespace Cytidel.Api.Mappers
             };
         }
 
-        public static TaskEntity ToEntity(TaskModel model)
+        public static TaskEntity ToEntity(this TaskCreateModel model)
         {
             return new TaskEntity
             {
-                Id = model.Id,
                 Title = model.Title,
                 Description = model.Description,
                 Priority = model.IdPriority.ToEnum<TaskPriorityEnum>(),
@@ -33,7 +32,7 @@ namespace Cytidel.Api.Mappers
             };
         }
 
-        public static List<TaskModel> ToModelList(this IEnumerable<TaskEntity> entities)
+        public static List<TaskModel> ToModel(this IEnumerable<TaskEntity> entities)
         {
             return entities.Select(ToModel).ToList();
         }

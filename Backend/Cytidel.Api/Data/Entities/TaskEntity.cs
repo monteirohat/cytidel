@@ -10,6 +10,7 @@ namespace Cytidel.Api.Data.Entities
         public TaskPriorityEnum Priority { get; set; }
         public DateTime DueDate { get; set; }
         public TaskStatusEnum Status { get; set; }
+        public DateTime CreatedDate { get; set; }
 
     }
 }
