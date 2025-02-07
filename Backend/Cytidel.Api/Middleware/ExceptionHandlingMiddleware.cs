@@ -26,6 +26,11 @@ namespace Cytidel.Api.Middleware
                 _logger.LogError(ex, "ArgumentNullException caught by middleware.");
                 await HandleBadRequest(context, ex.Message);
             }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError(ex, "ArgumentException caught by middleware.");
+                await HandleBadRequest(context, ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 _logger.LogError(ex, "ArgumentException caught by middleware.");

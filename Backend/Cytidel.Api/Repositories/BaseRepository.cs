@@ -42,5 +42,27 @@ namespace Cytidel.Api.Repositories
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
+
+        public virtual async Task<bool> DeleteByIdAsync(Guid id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+                return false;
+
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public virtual async Task<bool> ExistsAsync(Guid id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+                return false;
+
+            return true;
+        }
+
+
     }
 }

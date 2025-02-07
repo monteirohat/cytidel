@@ -4,6 +4,7 @@ using Cytidel.Api.Services;
 using Cytidel.Api.Repositories;
 using Cytidel.Api.Services.Interface;
 using Cytidel.Api.Data;
+using Cytidel.Api.Services.Validations;
 
 namespace Cytidel.Api.Extensions
 {
@@ -18,16 +19,22 @@ namespace Cytidel.Api.Extensions
                 options.UseSqlite(configuration.GetConnectionString("WebApiDatabase")));
 
 
-            #region Repositories
+            #region [Repositories]
 
             services.AddScoped<ITaskService, TaskService>();
 
             #endregion
 
-            #region Services
+            #region [Services]
 
             services.AddScoped<ITaskRepository, TaskRepository>();
 
+            #endregion
+
+            #region [Validations]
+
+            services.AddScoped<ITaskModelValidation, TaskModelValidation>();
+            
             #endregion
 
             return services;

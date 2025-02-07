@@ -6,8 +6,10 @@ namespace Cytidel.Api.Repositories
 {
     public class TaskRepository : BaseRepository<TaskEntity>, ITaskRepository
     {
-        public TaskRepository(CytidelContext context) : base(context)
+        private readonly CytidelContext _dbContext;
+        public TaskRepository(CytidelContext dbContext) : base(dbContext)
         {
+            _dbContext = dbContext;
         }
     }
 }

@@ -16,5 +16,11 @@
         {
             return Convert.ToInt32(item).ToString();
         }
+
+        public static bool IsValidEnum<T>(this int value) where T : Enum
+        {
+            return Enum.IsDefined(typeof(T), value);
+        }
+
     }
 }
