@@ -6,10 +6,10 @@ using Cytidel.Api.Utils;
 
 namespace Cytidel.Api.Services.Validations
 {
-    public class TaskModelValidation : ITaskModelValidation
+    public class TaskValidation : ITaskValidation
     {
         private readonly ITaskRepository _taskRepository;
-        public TaskModelValidation(ITaskRepository taskRepository)
+        public TaskValidation(ITaskRepository taskRepository)
         {
             _taskRepository = taskRepository;
         }

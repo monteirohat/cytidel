@@ -16,11 +16,11 @@ export const login = async (username, password, keepLoggedIn) => {
     const response = await request({
       endpoint: ENDPOINTS.AUTH.LOGIN,
       method: "POST",
-      body: { cpf: username, password: password },
-      includeTokens: false, // não envia tokens
+      body: { email: username, password: password },
+      includeTokens: false, //Not send token
     });
 
-    // Salvar os tokens no localStorage ou sessionStorage
+    // Save tokens
     const accessToken = response.headers.get(nameAccessToken);
     const refreshToken = response.headers.get(nameRefreshToken);
     const frontToken = response.headers.get(nameFrontToken);

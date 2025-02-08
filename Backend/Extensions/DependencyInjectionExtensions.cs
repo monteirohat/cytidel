@@ -5,6 +5,7 @@ using Cytidel.Api.Repositories;
 using Cytidel.Api.Services.Interface;
 using Cytidel.Api.Data;
 using Cytidel.Api.Services.Validations;
+using Cytidel.Api.Services.Interface.User;
 
 namespace Cytidel.Api.Extensions
 {
@@ -21,20 +22,25 @@ namespace Cytidel.Api.Extensions
 
             #region [Repositories]
 
-            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             #endregion
 
             #region [Services]
 
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
 
             #endregion
 
             #region [Validations]
 
-            services.AddScoped<ITaskModelValidation, TaskModelValidation>();
-            
+            services.AddScoped<ITaskValidation, TaskValidation>();
+            services.AddScoped<IAuthValidation, AuthValidation>();
+            services.AddScoped<IUserValidation, UserValidation>();
+
             #endregion
 
             return services;

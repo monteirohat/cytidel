@@ -10,11 +10,11 @@ namespace Cytidel.Api.Services
     {
         private readonly ILogger<TaskService> _logger;
         private readonly ITaskRepository _taskRepository;
-        private readonly ITaskModelValidation _taskModelValidation;
+        private readonly ITaskValidation _taskModelValidation;
          
         public TaskService(ILogger<TaskService> logger,
                         ITaskRepository taskRepository,
-                        ITaskModelValidation taskModelValidation)
+                        ITaskValidation taskModelValidation)
         {
             _logger = logger;
             _taskRepository = taskRepository;

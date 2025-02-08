@@ -2,7 +2,6 @@
 using Cytidel.Api.Data.Entities.Enums;
 using Cytidel.Api.Models.Tasks;
 using Cytidel.Api.Utils;
-using Microsoft.VisualBasic;
 
 namespace Cytidel.Api.Mappers
 {
@@ -19,7 +18,9 @@ namespace Cytidel.Api.Mappers
                 Description = entity.Description,
                 IdPriority = entity.Priority.GetEnumValue(),  
                 IdStatus = entity.Status.GetEnumValue(),      
-                DueDate = entity.DueDate
+                DueDate = entity.DueDate,
+                NameStatus= "",
+                NamePriority = ""
             };
         }
 

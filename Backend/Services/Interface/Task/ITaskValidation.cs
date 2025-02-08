@@ -2,7 +2,7 @@
 
 namespace Cytidel.Api.Services.Interface
 {
-    public interface ITaskModelValidation
+    public interface ITaskValidation
     {
         Task Exists(Guid id);
         void Create(TaskCreateModel model);

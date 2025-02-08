@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Authentication;
 
 namespace Cytidel.Api.Middleware
 {
@@ -35,6 +36,12 @@ namespace Cytidel.Api.Middleware
             {
                 _logger.LogError(ex, "ArgumentException caught by middleware.");
                 await HandleBadRequest(context, ex.Message);
+            }
+            catch (AuthenticationException ex)
+            {
+                _logger.LogError(ex, "AuthenticationException caught by middleware.");
+                await HandleUnauthorized(context, ex.Message);
+
             }
             catch (Exception ex)
             {
@@ -71,6 +78,22 @@ namespace Cytidel.Api.Middleware
                 Type = "https://httpstatuses.com/500",
                 Title = "Internal Server Error",
                 Detail = "An unexpected error occurred."
+            };
+
+            await context.Response.WriteAsJsonAsync(problem);
+        }
+
+        private async Task HandleUnauthorized(HttpContext context, string message)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.ContentType = "application/json";
+
+            var problem = new ProblemDetails
+            {
+                Status = (int)HttpStatusCode.Unauthorized,
+                Type = "https://httpstatuses.com/401",
+                Title = "Unauthorized",
+                Detail = message
             };
 
             await context.Response.WriteAsJsonAsync(problem);

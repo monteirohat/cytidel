@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:30400";
+const BASE_URL = "https://127.0.0.1:7081/";
 
 /**
  * Constrói os headers da requisição, incluindo os tokens necessários para autenticação.
@@ -12,7 +12,6 @@ function buildHeaders(includeTokens = true) {
   };
 
   if (!includeTokens) {
-    // Se não queremos incluir tokens, retornamos somente o cabeçalho básico
     return headers;
   }
 
