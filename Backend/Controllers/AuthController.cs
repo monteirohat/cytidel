@@ -1,12 +1,8 @@
 using Cytidel.Api.Models.Auth;
 using Cytidel.Api.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
-[Route("api/[controller]")]
+[Route("api/auth")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -26,4 +22,12 @@ public class AuthController : ControllerBase
         var result = await _authService.Login(model);
         return Ok(result);
     }
+
+    [HttpPost("token/refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenModel model)
+    {
+        var result = await _authService.RefreshToken(model);
+        return Ok(result);
+    }
+
 }

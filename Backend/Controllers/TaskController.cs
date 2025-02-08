@@ -1,10 +1,11 @@
 ﻿using Cytidel.Api.Models.Tasks;
 using Cytidel.Api.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cytidel.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/task")]
     [ApiController]
     public class TaskController : ControllerBase
     {
@@ -15,6 +16,7 @@ namespace Cytidel.Api.Controllers
         }
 
 
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -24,7 +26,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -34,7 +36,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
-
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -48,6 +50,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -58,6 +61,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPatch("{id}/{idStatus}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -68,7 +72,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
-
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

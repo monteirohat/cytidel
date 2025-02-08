@@ -6,5 +6,6 @@ namespace Cytidel.Api.Services.Interface
     public interface IAuthService
     {
         Task<AuthModel> Login(LoginModel model);
+        Task<AuthModel> RefreshToken(RefreshTokenModel model);
     }
 }

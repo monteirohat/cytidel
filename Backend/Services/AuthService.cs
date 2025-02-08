@@ -38,13 +38,54 @@ namespace Cytidel.Api.Services
             //Compare Hash
             var passwordHasher = new PasswordHasher<UserEntity>();
             var verificationResult = passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
-            if (verificationResult == PasswordVerificationResult.Success)
+            if (verificationResult != PasswordVerificationResult.Success)
                 throw new AuthenticationException(message);
 
+            var tokenString = GenerateToken(model.Email);
+            var refreshToken = Guid.NewGuid().ToString();
 
-            var claims = new[]
+            var authModel = new AuthModel
             {
-            new Claim(JwtRegisteredClaimNames.Sub, model.Email),
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Token = tokenString,
+                RefreshToken = refreshToken
+            };
+
+            return authModel;
+        }
+
+
+
+        public async Task<AuthModel> RefreshToken(RefreshTokenModel model)
+        {
+            var user = await _userRepository.GetByIdAsync(model.Id);
+            if (user == null)
+                throw new AuthenticationException("User not found.");
+
+            var tokenString = GenerateToken(user.Email);
+            var refreshToken = Guid.NewGuid().ToString();
+            var authModel = new AuthModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Token = tokenString,
+                RefreshToken = refreshToken
+            };
+
+            return authModel;
+
+
+        }
+
+
+        private string GenerateToken(string email)
+        {
+            var claims = new[]
+                       {
+            new Claim(JwtRegisteredClaimNames.Sub, email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -60,13 +101,8 @@ namespace Cytidel.Api.Services
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return null;
+            return tokenString;
         }
 
-
-       
-
     }
-
-
 }

@@ -3,7 +3,9 @@ using Cytidel.Api.Middleware;
 using Cytidel.Api.Services.Logger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,7 +52,20 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    // Define the security scheme for Bearer
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Enter your JWT token in the following format: Bearer {your token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
+});
 
 var app = builder.Build();
 

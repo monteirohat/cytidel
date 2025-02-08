@@ -1,10 +1,11 @@
 ﻿using Cytidel.Api.Models.User;
 using Cytidel.Api.Services.Interface.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cytidel.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -14,7 +15,7 @@ namespace Cytidel.Api.Controllers
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
-
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -24,7 +25,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -34,7 +35,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
-
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -48,6 +49,7 @@ namespace Cytidel.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
