@@ -19,7 +19,7 @@ export const login = async (email, password, keepLoggedIn) => {
       includeTokens: false, //Not send token
     });
 
-    const data = await response.json();
+    const data = await response;
 
     // Save tokens
     const accessToken = data.token;
@@ -102,3 +102,9 @@ export const clearAuthStorage = async () => {
   LocalStorageService.clear();
   SessionStorageService.clear();
 };
+
+export const refreshToken = async () =>{
+
+
+};
+

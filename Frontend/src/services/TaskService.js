@@ -7,7 +7,7 @@ export async function getTasks() {
     endpoint: ENDPOINTS.TASK.BASE,
     method: "GET",
   });
-  return await response.json();
+  return await response;
 }
 
 export async function getTaskById(id) {
@@ -18,7 +18,7 @@ export async function getTaskById(id) {
     method: "GET",
   });
 
-  return await response.json();
+  return await response;
 }
 
 export async function createTask(task) {
@@ -27,7 +27,7 @@ export async function createTask(task) {
     method: "POST",
     body: task,
   });
-  return await response.json();
+  return await response;
 }
 
 export async function updateTask(task) {

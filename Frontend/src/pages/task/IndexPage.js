@@ -96,9 +96,7 @@ function TaskPage() {
       setModalTitleIcon(EditIcon);
       setEditMode(true);
       setIsTaskModalOpen(true);
-    } else {
-      notification.error("Task not found");
-    }
+    } 
   };
 
   const handleSaveClick = async (task) => {
