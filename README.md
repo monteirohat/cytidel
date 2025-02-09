@@ -81,6 +81,12 @@ To perform API tests via Postman, import the **"Cytidel.postman_collection.json"
 
 ![Postman](postman.png)
 
+### Swagger (WebApi)
+
+https://127.0.0.1:7081/swagger/index.html
+
+![Swagger](swagger.png)
+
 ### Logins
 
 1. __User 1__
