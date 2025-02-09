@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "1766cd7c-f83b-4521-a1a1-87d4e65853fb",
+		"name": "Cytidel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29434834"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/user",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"user"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://127.0.0.1:7081/api/user' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Admin 2\",\n  \"email\": \"admin2@cytidel.com\",\n  \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/user",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"user"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'https://127.0.0.1:7081/api/user' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"name\": \"Admin 2\",\n  \"email\": \"admin2@cytidel.com\",\n  \"password\": \"12345\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/user/0ff34c2b-50ab-4c50-8715-1acc98435eb4",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"user",
+								"0ff34c2b-50ab-4c50-8715-1acc98435eb4"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://127.0.0.1:7081/api/user/0ff34c2b-50ab-4c50-8715-1acc98435eb4' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/user/0ff34c2b-50ab-4c50-8715-1acc98435eb5",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"user",
+								"0ff34c2b-50ab-4c50-8715-1acc98435eb5"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'DELETE' \\\n  'https://127.0.0.1:7081/api/user/0ff34c2b-50ab-4c50-8715-1acc98435eb5' \\\n  -H 'accept: */*' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://127.0.0.1:7081/api/task' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Test\",\n  \"description\": \"Test\",\n  \"idPriority\": 1,\n  \"idStatus\": 2,\n  \"dueDate\": \"2025-02-10\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'https://127.0.0.1:7081/api/task' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"title\": \"Test\",\n  \"description\": \"Test\",\n  \"idPriority\": 1,\n  \"idStatus\": 2,\n  \"dueDate\": \"2025-02-10\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Update task\",\n  \"description\": \"Update Task\",\n  \"idPriority\": 2,\n  \"idStatus\": 2,\n  \"dueDate\": \"2025-02-11T22:25:41.126Z\",\n  \"id\": \"70c8098a-87a9-4ecf-8773-a9f6d745c43f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'PUT' \\\n  'https://127.0.0.1:7081/api/task' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"title\": \"Update task\",\n  \"description\": \"Update Task\",\n  \"idPriority\": 2,\n  \"idStatus\": 2,\n  \"dueDate\": \"2025-02-11T22:25:41.126Z\",\n  \"id\": \"70c8098a-87a9-4ecf-8773-a9f6d745c43f\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task/70c8098a-87a9-4ecf-8773-a9f6d745c43f/1",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task",
+								"70c8098a-87a9-4ecf-8773-a9f6d745c43f",
+								"1"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'PATCH' \\\n  'https://127.0.0.1:7081/api/task/70c8098a-87a9-4ecf-8773-a9f6d745c43f/1' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task/70c8098a-87a9-4ecf-8773-a9f6d745c43e",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task",
+								"70c8098a-87a9-4ecf-8773-a9f6d745c43e"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'DELETE' \\\n  'https://127.0.0.1:7081/api/task/70c8098a-87a9-4ecf-8773-a9f6d745c43e' \\\n  -H 'accept: */*' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task/4c872274-7cab-411d-b837-71901cb416e5",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task",
+								"4c872274-7cab-411d-b837-71901cb416e5"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://127.0.0.1:7081/api/task/4c872274-7cab-411d-b837-71901cb416e5' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"monteiro.hat@gmail.com\",\n  \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'https://127.0.0.1:7081/api/auth/login' \\\n  -H 'accept: text/plain' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"email\": \"monteiro.hat@gmail.com\",\n  \"password\": \"12345\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"fe63e751-4771-4e96-899d-f545afcb982e\",\n  \"refreshToken\": \"3a12c6a4-a254-424e-b24d-f7dffb60380e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/auth/token/refresh",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"auth",
+								"token",
+								"refresh"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'https://127.0.0.1:7081/api/auth/token/refresh' \\\n  -H 'accept: text/plain' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"id\": \"fe63e751-4771-4e96-899d-f545afcb982e\",\n  \"refreshToken\": \"3a12c6a4-a254-424e-b24d-f7dffb60380e\"\n}'"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

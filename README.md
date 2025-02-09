@@ -75,6 +75,10 @@ const BASE_URL = "https://127.0.0.1:7081/api";
 1. __Backend Tests__
 For backend tests, execute the command ```dotnet test```.
 
+### Postman (WebApi)
+
+To perform API tests via Postman, import the **"Cytidel.postman_collection.json"** file (version 2.1) directly into Postman.
+
 ### Logins
 
 1. __User 1__
