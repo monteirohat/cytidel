@@ -27,7 +27,6 @@ npm or yarn (package manager)
 ```
 git clone https://github.com/monteirohat/cytidel.git
 cd cytidel
-
 ```
 2. __Run the Backend (ASP.NET Core)__
     1. Open a terminal in the backend folder.
@@ -59,7 +58,7 @@ cd cytidel
     4. By default, the React application will be available at http://localhost:3000.
 
 ### Configuration
-- If necessary, adjust the API base URL in the React app in a file such as src/services/ApiService.
+- If necessary, adjust the API base URL in the React app in a file such as ```Frontend/src/services/ApiService```.
 Example:
 
 ```
