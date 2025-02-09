@@ -43,7 +43,7 @@ namespace Cytidel.Api.Services
             await _taskRepository.AddAsync(entity);
 
             //Log hight priority
-            LogHighPriorityTask(model.IdPriority, entity.Id, model.Title, model.DueDate);
+            LogHighPriorityTask(model.IdPriority, entity.Id, model.Title, model.DueDate, "created");
 
             return entity.ToModel();
         }
@@ -59,7 +59,7 @@ namespace Cytidel.Api.Services
             await _taskRepository.UpdateAsync(existingEntity);
 
             //Log hight priority
-            LogHighPriorityTask(model.IdPriority, model.Id, model.Title, model.DueDate);
+            LogHighPriorityTask(model.IdPriority, model.Id, model.Title, model.DueDate, "updated");
 
             return existingEntity.ToModel();
         }
@@ -82,12 +82,12 @@ namespace Cytidel.Api.Services
         }
 
 
-        private void LogHighPriorityTask(int priority, Guid id, string title, DateTime dueDate)
+        private void LogHighPriorityTask(int priority, Guid id, string title, DateTime dueDate, string action)
         {
             if (priority == (int)TaskPriorityEnum.High)
             {
-                string criticalMessage = $"High priority task created: ID: {0} | Title: {1} | Due Date: {2}";
-                _logger.LogCritical(string.Format(criticalMessage, id, title, dueDate));
+                string criticalMessage = $"High priority task {action}: ID: {id} | Title: {title} | Due Date: {dueDate}";
+                _logger.LogCritical(criticalMessage);
             }
         }
 
