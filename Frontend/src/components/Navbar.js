@@ -146,21 +146,21 @@ function NavBar() {
 
             <Button
               key="USERS"
-              onClick={() => handleNavigate("/app")}
+              onClick={() => handleNavigate("/app/users")}
               sx={{ my: 2, color: "white", display: "flex", marginRight: 3 }}
               startIcon={<PeopleIcon />}
             >
               Users
             </Button>
 
-            <Button
+            {/* <Button
               key="LOGS"
               onClick={() => handleNavigate("/app")}
               sx={{ my: 2, color: "white", display: "flex", marginRight: 3 }}
               startIcon={<DescriptionIcon />}
             >
               Logs
-            </Button>
+            </Button> */}
 
           </Box>
 
@@ -215,18 +215,18 @@ function NavBar() {
               </MenuItem>
 
               <Divider />
-              <MenuItem onClick={() => handleNavigate("/app/meusdados")}>
+              <MenuItem onClick={() => handleNavigate("/app/profile")}>
                 <IconButton sx={{ p: 0, mr: 2 }}>
                   <UserIcon />
                 </IconButton>
                 Profile
               </MenuItem>
-              <MenuItem>
+              {/* <MenuItem>
                 <IconButton sx={{ p: 0, mr: 2 }}>
                   <PasswordIcon />
                 </IconButton>
                 Change Password
-              </MenuItem>
+              </MenuItem> */}
 
             
               <Divider />

@@ -21,10 +21,10 @@ const NotAuthorize = () => {
     >
       <NoEncryptionIcon sx={{ fontSize: 80, marginBottom: 2 }} />
       <Typography variant="h2" component="h1" gutterBottom>
-        Acesso negado
+        Access Denied
       </Typography>
       <Typography variant="body1" gutterBottom>
-        Desculpe, mas você não tem permissão para acessar esta página.
+        Sorry, but you do not have permission to access this page.
       </Typography>
       <Button
         sx={{ marginTop: 2 }}
@@ -33,7 +33,7 @@ const NotAuthorize = () => {
         component={Link}
         to="/"
       >
-        Voltar para a página inicial
+        Back to Home Page
       </Button>
     </Box>
   );

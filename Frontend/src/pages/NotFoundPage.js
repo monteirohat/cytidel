@@ -21,10 +21,10 @@ const NotFoundPage = () => {
     >
       <SearchOffIcon sx={{ fontSize: 100, marginBottom: 2 }} />
       <Typography variant="h2" component="h1" gutterBottom>
-        Página Não Encontrada
+        Page Not Found
       </Typography>
       <Typography variant="body1" gutterBottom>
-        Desculpe, a página que você está procurando não existe.
+        Sorry, the page you are looking for does not exist.
       </Typography>
       <Button
         sx={{ marginTop: 2 }}
@@ -33,7 +33,7 @@ const NotFoundPage = () => {
         component={Link}
         to="/"
       >
-        Voltar para a página inicial
+        Back to Home Page
       </Button>
     </Box>
   );
