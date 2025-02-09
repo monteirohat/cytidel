@@ -1,11 +1,7 @@
 // src/pages/HomePage.js
 import React from "react";
 import {
-  Typography,
   Box,
-  Grid,
-  Card,
-  CardContent
 } from "@mui/material";
 
 function HomePage() {

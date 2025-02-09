@@ -1,4 +1,5 @@
 ﻿using Cytidel.Api.Data.Entities;
+using Cytidel.Api.Data.Entities.Enums;
 
 namespace Cytidel.Api.Repositories.Interface
 {
@@ -10,5 +11,6 @@ namespace Cytidel.Api.Repositories.Interface
         Task<TaskEntity> GetByIdAsync(Guid id);
         Task<bool> DeleteByIdAsync(Guid id);
         Task<bool> ExistsAsync(Guid id);
+        Task<TaskEntity> ChangeStatus(Guid id, TaskStatusEnum status);
     }
 }

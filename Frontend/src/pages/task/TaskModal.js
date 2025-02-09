@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Typography,
@@ -10,10 +10,7 @@ import {
   Radio,
   FormControlLabel,
   Stack,
-  Chip,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 
 export const TaskModal = ({
   title,
@@ -21,35 +18,55 @@ export const TaskModal = ({
   open,
   handleClose,
   handleSave,
+  editMode,
+  task,
 }) => {
-  const [taskTitle, setTaskTitle] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
-  const [dueDate, setDueDate] = useState(""); // This will be a string from the datetime-local input
-  const [priority, setPriority] = useState("2"); // Default to "Medium"
-
   // Error state for validation
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [dueDateError, setDueDateError] = useState("");
 
+  const [formData, setFormData] = useState({
+    id: null,
+    title: "",
+    description: "",
+    dueDate: "",
+    idPriority: 2,
+    idStatus: 1,
+  });
+
+  useEffect(() => {
+    if (editMode && task) {
+      setFormData({
+        id: task.id || null,
+        title: task.title || "",
+        description: task.description || "",
+        // Convert dueDate if necessary to match the datetime-local format
+        dueDate: task.dueDate ? task.dueDate.substring(0, 16) : "",
+        idPriority: String(task.idPriority || "2"),
+        idStatus: String(task.idStatus || "1"),
+      });
+    }
+  }, [editMode, task]);
+
   const onSave = () => {
     let valid = true;
 
-    if (!taskTitle.trim()) {
+    if (!formData.title.trim()) {
       setTitleError("Title is required");
       valid = false;
     } else {
       setTitleError("");
     }
 
-    if (!taskDescription.trim()) {
+    if (!formData.description.trim()) {
       setDescriptionError("Description is required");
       valid = false;
     } else {
       setDescriptionError("");
     }
 
-    if (!dueDate) {
+    if (!formData.dueDate) {
       setDueDateError("Due Date is required");
       valid = false;
     } else {
@@ -58,20 +75,25 @@ export const TaskModal = ({
 
     if (!valid) return;
 
-    const newTask = {
-      title: taskTitle,
-      description: taskDescription,
-      dueDate, // Optionally, you might convert this string to a Date object if needed.
-      idPriority: priority,
-      idStatus: 1,
-    };
+    handleSave(formData);
 
-    handleSave(newTask);
+    clearFields();
+  };
 
-    setTaskTitle("");
-    setTaskDescription("");
-    setDueDate("");
-    setPriority("2");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const clearFields = () => {
+    setFormData({
+        id: null,
+        title: "",
+        description: "",
+        dueDate: "",
+        idPriority: 2,
+        idStatus: 1,
+      });
   };
 
   return (
@@ -128,9 +150,9 @@ export const TaskModal = ({
           <RadioGroup
             row
             aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
+            name="idPriority"
+            value={formData.idPriority}
+            onChange={handleChange}
           >
             <FormControlLabel value="1" control={<Radio />} label="Low" />
             <FormControlLabel value="2" control={<Radio />} label="Medium" />
@@ -141,11 +163,12 @@ export const TaskModal = ({
         <TextField
           fullWidth
           label="Title"
+          name="title"
           variant="outlined"
           size="small"
           sx={{ mb: 2 }}
-          value={taskTitle}
-          onChange={(e) => setTaskTitle(e.target.value)}
+          value={formData.title}
+          onChange={handleChange}
           error={!!titleError}
           helperText={titleError}
         />
@@ -153,11 +176,12 @@ export const TaskModal = ({
         <TextField
           fullWidth
           label="Description"
+          name="description"
           variant="outlined"
           size="small"
           sx={{ mb: 2 }}
-          value={taskDescription}
-          onChange={(e) => setTaskDescription(e.target.value)}
+          value={formData.description}
+          onChange={handleChange}
           error={!!descriptionError}
           helperText={descriptionError}
         />
@@ -165,6 +189,7 @@ export const TaskModal = ({
         <TextField
           fullWidth
           label="Due Date"
+          name="dueDate"
           type="datetime-local"
           InputLabelProps={{
             shrink: true, // Ensures the label stays above the input
@@ -172,8 +197,8 @@ export const TaskModal = ({
           variant="outlined"
           size="small"
           sx={{ mb: 2 }}
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
+          value={formData.dueDate}
+          onChange={handleChange}
           error={!!dueDateError}
           helperText={dueDateError}
         />

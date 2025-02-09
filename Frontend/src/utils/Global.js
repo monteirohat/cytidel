@@ -22,13 +22,13 @@ export function getStatusIcon(idStatus, nameStatus) {
     case 1:
       return (
         <Tooltip title={nameStatus}>
-          <Chip label="Pending" color="default" size="small" />
+          <Chip label={nameStatus} color="primary" size="small" sx={{width:100}}/>
         </Tooltip>
       );
     case 2:
       return (
         <Tooltip title={nameStatus}>
-          <Chip label="In Progress" color="warning" size="small" />
+          <Chip label={nameStatus} color="info" size="small" sx={{width:100}}/>
         </Tooltip>
       );
     case 3:
@@ -40,14 +40,28 @@ export function getStatusIcon(idStatus, nameStatus) {
     case 4:
       return (
         <Tooltip title={nameStatus}>
-          <Chip label="Archived" color="primary" size="small" />
+          <Chip label={nameStatus} color="secondary" size="small" sx={{width:100}}/>
         </Tooltip>
       );
     default:
       return (
         <Tooltip title={nameStatus}>
-          <Chip label="Unknown" size="small" />
+          <Chip label="Unknown" size="small" sx={{width:80}}/>
         </Tooltip>
       );
   }
 }
+
+export function formatDate(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+

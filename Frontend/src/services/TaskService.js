@@ -22,7 +22,6 @@ export async function getTaskById(id) {
 }
 
 export async function createTask(task) {
-  validateTask(task);
   const response = await request({
     endpoint: ENDPOINTS.TASK.BASE,
     method: "POST",
@@ -32,8 +31,7 @@ export async function createTask(task) {
 }
 
 export async function updateTask(task) {
-  validateTask(task);
-
+  
   return request({
     endpoint: ENDPOINTS.TASK.BASE,
     method: "PUT",
@@ -50,28 +48,14 @@ export async function deleteTask(id) {
   });
 }
 
-const validateTask = (task) => {
-  // if (!user.name || user.name.trim() === "") {
-  //   throw new Error("Nome é obrigatório.");
-  // }
+export async function changeStatusTask(id, idStatus) {
+  const endpoint = buildRouteWithParams(ENDPOINTS.TASK.STATUS, { id, idStatus });
 
-  // if (!user.email || user.email.trim() === "") {
-  //   throw new Error("E-mail é obrigatório.");
-  // }
+  return request({
+    endpoint,
+    method: "PATCH",
+  });
+}
 
-  // if (!user.cpf || user.cpf.trim() === "") {
-  //   throw new Error("CPF é obrigatório.");
-  // }
 
-  // if (!user.phone || user.phone.trim() === "") {
-  //   throw new Error("Telefone é obrigatório.");
-  // }
 
-  // if (!validator.isCpf(user.cpf)) {
-  //   throw new Error("CPF inválido.");
-  // }
-
-  // if (!validator.isEmail(user.email)) {
-  //   throw new Error("E-mail inválido.");
-  // }
-};

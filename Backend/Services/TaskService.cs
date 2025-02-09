@@ -3,6 +3,7 @@ using Cytidel.Api.Mappers;
 using Cytidel.Api.Models.Tasks;
 using Cytidel.Api.Repositories.Interface;
 using Cytidel.Api.Services.Interface;
+using Cytidel.Api.Utils;
 
 namespace Cytidel.Api.Services
 {
@@ -67,9 +68,9 @@ namespace Cytidel.Api.Services
         {
             await _taskModelValidation.Exists(id);
 
-            await _taskRepository.DeleteByIdAsync(id);
+            var entity = await _taskRepository.ChangeStatus(id, idStatus.ToEnum<TaskStatusEnum>());
 
-            return null;
+            return entity.ToModel();
         }
 
 

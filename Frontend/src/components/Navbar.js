@@ -1,7 +1,7 @@
 // src/layout/NavBar.js
 
 //Componentes
-import React, { useMemo } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,7 +20,6 @@ import Chip from "@mui/material/Chip";
 import { useNavigate } from "react-router-dom";
 
 //Icons
-import { getIconComponent } from "../utils/IconMapper";
 import PeopleIcon from "@mui/icons-material/People";
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 import DescriptionIcon from '@mui/icons-material/Description';
