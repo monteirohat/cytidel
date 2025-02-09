@@ -1,6 +1,6 @@
 import { request, buildRouteWithParams } from "./ApiService.js";
 import { ENDPOINTS } from "../api/Endpoints.js";
-import * as validator from "../utils/Validator.js";
+
 
 export async function getTasks() {
   const response = await request({
@@ -22,7 +22,7 @@ export async function getTaskById(id) {
 }
 
 export async function createTask(task) {
-  validateUser(task);
+  validateTask(task);
   const response = await request({
     endpoint: ENDPOINTS.TASK.BASE,
     method: "POST",
@@ -32,7 +32,7 @@ export async function createTask(task) {
 }
 
 export async function updateTask(task) {
-  validateUser(task);
+  validateTask(task);
 
   return request({
     endpoint: ENDPOINTS.TASK.BASE,
@@ -50,28 +50,28 @@ export async function deleteTask(id) {
   });
 }
 
-const validateUser = (user) => {
-  if (!user.name || user.name.trim() === "") {
-    throw new Error("Nome é obrigatório.");
-  }
+const validateTask = (task) => {
+  // if (!user.name || user.name.trim() === "") {
+  //   throw new Error("Nome é obrigatório.");
+  // }
 
-  if (!user.email || user.email.trim() === "") {
-    throw new Error("E-mail é obrigatório.");
-  }
+  // if (!user.email || user.email.trim() === "") {
+  //   throw new Error("E-mail é obrigatório.");
+  // }
 
-  if (!user.cpf || user.cpf.trim() === "") {
-    throw new Error("CPF é obrigatório.");
-  }
+  // if (!user.cpf || user.cpf.trim() === "") {
+  //   throw new Error("CPF é obrigatório.");
+  // }
 
-  if (!user.phone || user.phone.trim() === "") {
-    throw new Error("Telefone é obrigatório.");
-  }
+  // if (!user.phone || user.phone.trim() === "") {
+  //   throw new Error("Telefone é obrigatório.");
+  // }
 
-  if (!validator.isCpf(user.cpf)) {
-    throw new Error("CPF inválido.");
-  }
+  // if (!validator.isCpf(user.cpf)) {
+  //   throw new Error("CPF inválido.");
+  // }
 
-  if (!validator.isEmail(user.email)) {
-    throw new Error("E-mail inválido.");
-  }
+  // if (!validator.isEmail(user.email)) {
+  //   throw new Error("E-mail inválido.");
+  // }
 };

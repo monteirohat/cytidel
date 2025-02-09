@@ -1,12 +1,6 @@
-const BASE_URL = "https://127.0.0.1:7081/";
+const BASE_URL = "https://127.0.0.1:7081/api";
 
-/**
- * Constrói os headers da requisição, incluindo os tokens necessários para autenticação.
- *
- * @returns {Object} - Objeto com os cabeçalhos da requisição
- */
 function buildHeaders(includeTokens = true) {
-  // Cabeçalho padrão
   const headers = {
     "Content-Type": "application/json",
   };
@@ -15,45 +9,33 @@ function buildHeaders(includeTokens = true) {
     return headers;
   }
 
-  // Nomes das chaves de token
-  let nameAccessToken = "st-access-token";
-  let nameRefreshToken = "st-refresh-token";
-  let nameFrontToken = "front-token";
+  let nameAccessToken = "access-token";
+  let nameRefreshToken = "refresh-token";
 
-  // Recupera do localStorage ou sessionStorage
+  // Check data in localStorage or sessionStorage
   const accessToken =
     localStorage.getItem(nameAccessToken) ||
     sessionStorage.getItem(nameAccessToken);
   const refreshToken =
     localStorage.getItem(nameRefreshToken) ||
     sessionStorage.getItem(nameRefreshToken);
-  const frontToken =
-    localStorage.getItem(nameFrontToken) ||
-    sessionStorage.getItem(nameFrontToken);
 
-  // Monta os headers, se existirem tokens
   if (accessToken) {
     headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-  if (refreshToken) {
-    headers["st-refresh-token"] = refreshToken;
-  }
-  if (frontToken) {
-    headers["front-token"] = frontToken;
   }
 
   return headers;
 }
 
 /**
- * Faz uma requisição HTTP genérica usando fetch, buscando a rota a partir de um dicionário.
+ * Makes a generic HTTP request using fetch, constructing the URL from a dictionary.
  *
  * @param {Object} params
- * @param {string} params.endpointKey - Chave do endpoint (ex: 'USERS', 'PRODUCTS', etc.)
- * @param {string} [params.method='GET'] - Verbo HTTP (GET, POST, PUT, DELETE, etc.)
- * @param {Object} [params.urlParams={}] - Objeto contendo parâmetros de query string
- * @param {Object|null} [params.body=null] - Objeto para o corpo da requisição (caso necessário)
- * @returns {Promise<any>} - Retorna a resposta da requisição em formato JSON
+ * @param {string} params.endpoint - The endpoint path (e.g., '/users', '/products', etc.)
+ * @param {string} [params.method='GET'] - HTTP verb (GET, POST, PUT, DELETE, etc.)
+ * @param {Object} [params.urlParams={}] - Object containing query string parameters
+ * @param {Object|null} [params.body=null] - Object for the request body (if necessary)
+ * @returns {Promise<any>} - Returns the response of the request in JSON format
  */
 export async function request({
   endpoint,
@@ -89,11 +71,11 @@ export async function request({
 }
 
 /**
- * Helper para construir endpoints dinâmicos (ex.: com {id} ou {cpf})
+ * Helper to build dynamic endpoints (e.g., with {id} or {cpf})
  *
- * @param {string} endpoint - O endpoint base (ex.: '/users/{cpf}')
- * @param {Object} params - Objeto com os valores para substituir as variáveis (ex.: { cpf: '12345678900' })
- * @returns {string} - Endpoint com as variáveis substituídas.
+ * @param {string} endpoint - The base endpoint (e.g., '/users/{cpf}')
+ * @param {Object} params - Object with values to replace the variables (e.g., { cpf: '12345678900' })
+ * @returns {string} - Endpoint with the variables replaced.
  */
 export function buildRouteWithParams(endpoint, params) {
   let resolvedEndpoint = endpoint;
@@ -106,47 +88,35 @@ export function buildRouteWithParams(endpoint, params) {
 }
 
 /**
- * Trata erros de resposta com base no status.
+ * Handles response errors based on the status.
  *
- * @param {Response} response - Objeto Response da API
+ * @param {Response} response - API Response object
  */
 async function handleResponseError(response) {
-  const errorText = await response.json(); // Lê o corpo da resposta
+  const errorText = await response.json(); // Read the response body (ProblemDetails)
 
   switch (response.status) {
     case 400:
       console.error(
-        "Houve um erro na requisição. Verifique os dados enviados."
+        "There was an error in the request. Please check the submitted data."
       );
       break;
     case 401:
-      if (errorText.message === "unauthorised") {
-        errorText.message = "Usuário não autenticado.";
-      }
-      if(errorText.message === "try refresh token"){
-        //realiza o refresh do token
-      };
-      console.error(
-        "Você não está autenticado. Por favor, faça login novamente."
-      );
+      console.error("You are not authenticated. Please log in again.");
       break;
     case 403:
-      console.error("Você não tem permissão para acessar este recurso.");
+      console.error("You do not have permission to access this resource.");
       break;
     case 404:
-      console.error("O recurso solicitado não foi encontrado.");
+      console.error("The requested resource was not found.");
       break;
     case 500:
-      console.error("Erro interno do servidor. Tente novamente mais tarde.");
+      console.error("Internal server error. Please try again later.");
       break;
     default:
-      console.error(
-        "Um erro desconhecido ocorreu. Por favor, tente novamente."
-      );
+      console.error("An unknown error occurred. Please try again.");
   }
 
-  // Lança o erro para quem chamou (se necessário),
-  // mas deve enviar ao SeqLog em breve
-  throw new Error(`${errorText.message}`);
+  // Throw an error with the detail from ProblemDetails
+  throw new Error(errorText.detail || "An error occurred.");
 }
-

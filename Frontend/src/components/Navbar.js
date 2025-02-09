@@ -19,26 +19,27 @@ import Chip from "@mui/material/Chip";
 
 import { useNavigate } from "react-router-dom";
 
-//Icones
+//Icons
 import { getIconComponent } from "../utils/IconMapper";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import PeopleIcon from "@mui/icons-material/People";
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
+import DescriptionIcon from '@mui/icons-material/Description';
 import ExitIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
 import UserIcon from "@mui/icons-material/Person";
 import PasswordIcon from "@mui/icons-material/Key";
 
-//Imagens
+//Images
 import userImage from "../assets/user.png";
-import specterImage from "../assets/specter.svg";
+import logoImage from "../assets/logo.avif";
 
 //Services
-import { logout } from "../services/AuthService";
+import { logout, getUserData } from "../services/AuthService";
 
-//Contextos
+//Contexts
 import { useNotification } from "../contexts/NotificationContext";
 
 const pages = ["Clientes", "Task", "Plugins"];
-//const settings = ["Meus dados", "Account"];
+
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -48,8 +49,7 @@ function NavBar() {
 
   const notification = useNotification();
 
-  const mainMenuItems = [];
-  const userMenu = [];
+  const userData = getUserData();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -80,15 +80,15 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "#253141" }}>
+    <AppBar position="static" sx={{ bgcolor: "rgb(0, 13, 48)" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <a href="/">
             <img
-              src={specterImage}
+              src={logoImage}
               style={{ width: "150px", marginTop: "10px" }}
-              alt="SPECTER"
+              alt="CYTIDEL"
             />
           </a>
 
@@ -137,37 +137,32 @@ function NavBar() {
             }}
           >
             <Button
-              key="DASHBOARD"
-              onClick={() => handleNavigate("/app")}
+              key="TASKS"
+              onClick={() => handleNavigate("/app/tasks")}
               sx={{ my: 2, color: "white", display: "flex", marginRight: 3 }}
-              startIcon={<DashboardIcon />}
+              startIcon={<ChecklistRtlIcon />}
             >
-              Dashboard
+              Tasks
             </Button>
 
-            {/* {mainMenuItems.map((item, idx) => {
-              // Você pode vincular o ícone dinamicamente se quiser,
-              // mas aqui para simplificar:
-              const IconComp = getIconComponent(item.icon);
+            <Button
+              key="USERS"
+              onClick={() => handleNavigate("/app")}
+              sx={{ my: 2, color: "white", display: "flex", marginRight: 3 }}
+              startIcon={<PeopleIcon />}
+            >
+              Users
+            </Button>
 
-              return (
-                <Button
-                  key={idx}
-                  onClick={() =>
-                    handleNavigate("/app/" + item.name.toLowerCase())
-                  }
-                  sx={{
-                    my: 2,
-                    color: "white",
-                    display: "flex",
-                    marginRight: 3,
-                  }}
-                  startIcon={<IconComp />}
-                >
-                  {item.label}
-                </Button>
-              );
-            })} */}
+            <Button
+              key="LOGS"
+              onClick={() => handleNavigate("/app")}
+              sx={{ my: 2, color: "white", display: "flex", marginRight: 3 }}
+              startIcon={<DescriptionIcon />}
+            >
+              Logs
+            </Button>
+
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -187,7 +182,7 @@ function NavBar() {
                   variant="body1"
                   sx={{ marginLeft: 1, color: "white" }}
                 >
-                  "USER NAME"
+                  {userData.name}
                 </Typography>
               </Box>
             </Tooltip>
@@ -212,15 +207,11 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
+             
               <MenuItem sx={{ display: "flex", justifyContent: "center" }}>
                 <Chip
                   sx={{ fontSize: "16px" }}
-                  label={`email@email.com`}
+                  label={userData.email}
                 />
               </MenuItem>
 
@@ -229,37 +220,22 @@ function NavBar() {
                 <IconButton sx={{ p: 0, mr: 2 }}>
                   <UserIcon />
                 </IconButton>
-                Meus dados
+                Profile
               </MenuItem>
               <MenuItem>
                 <IconButton sx={{ p: 0, mr: 2 }}>
                   <PasswordIcon />
                 </IconButton>
-                Alterar senha
+                Change Password
               </MenuItem>
 
-              {userMenu?.menuItems?.length > 0 && <Divider />}
-              {userMenu?.menuItems?.map((item) => {
-                const IconComp = getIconComponent(item.icon);
-                return (
-                  <MenuItem
-                    key={item.id}
-                    onClick={() =>
-                      handleNavigate("/app/" + item.name.toLowerCase())
-                    }
-                  >
-                    <IconButton sx={{ p: 0, mr: 2 }}>{<IconComp />}</IconButton>
-                    {item.label}
-                  </MenuItem>
-                );
-              })}
-
+            
               <Divider />
               <MenuItem onClick={() => handleLogout()}>
                 <IconButton sx={{ p: 0, mr: 2 }}>
                   <ExitIcon />
                 </IconButton>
-                Sair
+                Exit
               </MenuItem>
             </Menu>
           </Box>

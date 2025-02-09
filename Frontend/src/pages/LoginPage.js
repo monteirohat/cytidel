@@ -82,8 +82,8 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      const cleanUserName = username.replace(/\D/g, "");
-      await login(cleanUserName, password, keepLoggedIn);
+      
+      await login(username, password, keepLoggedIn);
       navigate("/app");
     } catch (error) {
       notification.error(error.message);
@@ -124,7 +124,8 @@ function LoginPage() {
           >
            
             <TextField
-                  label="Username"
+                  label="Email"
+                  type="email"
                   variant="standard"
                   fullWidth
                   InputLabelProps={{

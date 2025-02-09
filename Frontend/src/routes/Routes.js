@@ -15,7 +15,7 @@ import NotAuthorize from "../pages/NotAuthorize";
 
 import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
-
+import TaskPage from "../pages/task/IndexPage";
 
 function AppRoutes() {
   return (
@@ -36,6 +36,7 @@ function AppRoutes() {
           }
         >
           <Route index element={<HomePage />} />
+          <Route path="tasks" element={<TaskPage />} />
         </Route>
 
         

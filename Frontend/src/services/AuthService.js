@@ -6,30 +6,29 @@ import SessionStorageService from "./SessionStorageService";
 import { request } from "./ApiService";
 import { ENDPOINTS } from "../api/Endpoints";
 
-const nameAccessToken = "st-access-token";
-const nameRefreshToken = "st-refresh-token";
-const nameFrontToken = "front-token";
+const nameAccessToken = "access-token";
+const nameRefreshToken = "refresh-token";
 const nameUserData = "user";
 
-export const login = async (username, password, keepLoggedIn) => {
+export const login = async (email, password, keepLoggedIn) => {
   try {
     const response = await request({
       endpoint: ENDPOINTS.AUTH.LOGIN,
       method: "POST",
-      body: { email: username, password: password },
+      body: { email: email, password: password },
       includeTokens: false, //Not send token
     });
 
-    // Save tokens
-    const accessToken = response.headers.get(nameAccessToken);
-    const refreshToken = response.headers.get(nameRefreshToken);
-    const frontToken = response.headers.get(nameFrontToken);
-
     const data = await response.json();
 
+    // Save tokens
+    const accessToken = data.token;
+    const refreshToken = data.refreshToken;
+ 
     const userData  = {
-      authId : data?.user.authId,
-      cpf: data?.user.cpf
+      id : data?.id,
+      name: data?.name,
+      email: data?.email
     };
 
     LocalStorageService.clear();
@@ -38,12 +37,10 @@ export const login = async (username, password, keepLoggedIn) => {
     if (keepLoggedIn) {
       LocalStorageService.setItem(nameAccessToken, accessToken, false);
       LocalStorageService.setItem(nameRefreshToken, refreshToken, false);
-      LocalStorageService.setItem(nameFrontToken, frontToken, false);
       LocalStorageService.setItem(nameUserData, userData);
     } else {
       SessionStorageService.setItem(nameAccessToken, accessToken, false);
       SessionStorageService.setItem(nameRefreshToken, refreshToken, false);
-      SessionStorageService.setItem(nameFrontToken, frontToken, false);
 
       SessionStorageService.setItem(nameUserData, userData);
     }
@@ -54,45 +51,37 @@ export const login = async (username, password, keepLoggedIn) => {
   }
 };
 
-// Função para deslogar o usuário
 export const logout = async () => {
-  const response = await request({
-    endpoint: ENDPOINTS.AUTH.LOGOUT,
-    method: "POST",
-  });
   LocalStorageService.clear();
   SessionStorageService.clear();
 };
 
 export const isAuthenticated = () => {
-  // 1) Verifica tokens no localStorage
+  // 1) Check localStorage tokens 
   const lsAccessToken = LocalStorageService.getItem(nameAccessToken, false);
   const lsRefreshToken = LocalStorageService.getItem(nameRefreshToken, false);
-  const lsFrontToken = LocalStorageService.getItem(nameFrontToken, false);
   const lsUserData = LocalStorageService.getItem(nameUserData);
 
-  // Se encontrou todos no LocalStorage, já consideramos autenticado
   const localStorageHasTokens =
-    lsAccessToken && lsRefreshToken && lsFrontToken && lsUserData;
+    lsAccessToken && lsRefreshToken && lsUserData;
 
   if (localStorageHasTokens) {
     return true;
   }
 
-  // 2) Se não encontrou no LocalStorage, verifica tokens no sessionStorage
+  // 2) Check sessionStorage token
   const ssAccessToken = SessionStorageService.getItem(nameAccessToken, false);
   const ssRefreshToken = SessionStorageService.getItem(nameRefreshToken, false);
-  const ssFrontToken = SessionStorageService.getItem(nameFrontToken, false);
   const ssUserData = SessionStorageService.getItem(nameUserData);
 
   const sessionStorageHasTokens =
-    ssAccessToken && ssRefreshToken && ssFrontToken && ssUserData;
+    ssAccessToken && ssRefreshToken  && ssUserData;
 
   if (sessionStorageHasTokens) {
     return true;
   }
 
-  // 3) Se não achou em nenhum dos dois, retorna false (não autenticado)
+  
   return false;
 };
 
@@ -108,7 +97,7 @@ export const getUserData = () => {
   } else return null;
 };
 
-// User logout
+
 export const clearAuthStorage = async () => {
   LocalStorageService.clear();
   SessionStorageService.clear();

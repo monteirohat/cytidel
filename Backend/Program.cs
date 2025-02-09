@@ -50,6 +50,20 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 
+// Configure CORS to allow requests from the React app
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // Add the frontend URL
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -75,6 +89,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Apply CORS policy before other middlewares
+app.UseCors("AllowReactApp");
 
 //Middlewares
 app.UseMiddleware<RequestLoggingMiddleware>();
