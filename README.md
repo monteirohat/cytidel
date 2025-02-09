@@ -79,6 +79,8 @@ For backend tests, execute the command ```dotnet test```.
 
 To perform API tests via Postman, import the **"Cytidel.postman_collection.json"** file (version 2.1) directly into Postman.
 
+![Postman](postman.png)
+
 ### Logins
 
 1. __User 1__
