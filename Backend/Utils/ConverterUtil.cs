@@ -1,4 +1,7 @@
-﻿namespace Cytidel.Api.Utils
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+
+namespace Cytidel.Api.Utils
 {
     public static class ConverterUtil
     {
@@ -22,5 +25,18 @@
             return Enum.IsDefined(typeof(T), value);
         }
 
+        public static string GetEnumDescription<T>(this T enumValue) where T : Enum
+        {
+            var memberInfo = typeof(T).GetMember(enumValue.ToString());
+            if (memberInfo != null && memberInfo.Length > 0)
+            {
+                var displayAttribute = memberInfo[0].GetCustomAttribute<DisplayAttribute>();
+                if (displayAttribute != null)
+                {
+                    return displayAttribute.Name;
+                }
+            }
+            return enumValue.ToString();
+        }
     }
 }

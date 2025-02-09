@@ -15,11 +15,7 @@ import UserIcon from "@mui/icons-material/Person";
 import PasswordIcon from "@mui/icons-material/Key";
 import RuleIcon from "@mui/icons-material/Rule";
 
-/**
- * Retorna o componente de ícone de acordo com o nome passado.
- * @param {string} iconName - Nome do ícone (por ex. "HailIcon", "TabletIcon", etc.)
- * @returns {JSX.Element} - Componente MUI de ícone.
- */
+
 export function getIconComponent(iconName) {
   switch (iconName) {
     case "HailIcon":
@@ -39,7 +35,6 @@ export function getIconComponent(iconName) {
     case "SettingsIcon":
       return SettingsIcon;
     default:
-      // Se não encontrou o nome, retorna o Dashboard como fallback
       return DashboardIcon;
   }
 }

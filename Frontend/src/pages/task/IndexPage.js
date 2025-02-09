@@ -20,7 +20,7 @@ import {
 
 //Icons
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import PeopleIcon from "@mui/icons-material/People";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -34,7 +34,8 @@ import GridSkeleton from "../../components/GridSkeleton";
 import { TaskModal } from "./TaskModal";
 
 //Services
-import { getTasks } from "../../services/TaskService";
+import { getTasks, createTask } from "../../services/TaskService";
+import { getPriorityColor, getStatusIcon } from "../../utils/Global";
 
 //Contexts
 import { useNotification } from "../../contexts/NotificationContext";
@@ -47,6 +48,8 @@ function TaskPage() {
   //Tasks
   const [tasks, setTasks] = useState([]);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalTitleIcon, setModalTitleIcon] = useState("");
 
   useEffect(() => {
     async function fetchTasks() {
@@ -64,16 +67,28 @@ function TaskPage() {
   }, [notification]);
 
   const handleNewClick = () => {
-    // modalUserTitle = "Add Task";
-    // modalUserTitleIcon = AddIcon;
+    setModalTitle("Add Task");
+    setModalTitleIcon(AddIcon);
     setIsTaskModalOpen(true);
   };
 
-  const handleCloseTaskModal = () => {
-    
-    setIsTaskModalOpen(false);
+  const handleSaveClick = async (newTask) => {
+    try {
+      await createTask(newTask);
+
+      const updatedTasks = await getTasks();
+      setTasks(updatedTasks);
+      notification.success("Task added successfully!");
+    } catch (error) {
+      notification.error(error.message);
+    } finally {
+      setIsTaskModalOpen(false);
+    }
   };
 
+  const handleCloseTaskModal = () => {
+    setIsTaskModalOpen(false);
+  };
 
   const handleDeleteClick = (id) => {};
 
@@ -104,10 +119,10 @@ function TaskPage() {
               <Table size="small">
                 <TableHead>
                   <TableRow>
+                    <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
                     <TableCell>Title</TableCell>
                     <TableCell>Description</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>Priority</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
                     <TableCell>Due Date</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -115,18 +130,28 @@ function TaskPage() {
                 <TableBody>
                   {tasks.map((item) => (
                     <TableRow key={item.id}>
+                      <TableCell sx={{ textAlign: "center" }}>
+                      {getStatusIcon(item.idStatus, item.nameStatus)}
+                      </TableCell>
                       <TableCell>{item.title}</TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {item.namePriority}
+                        <Chip
+                          label={item.namePriority}
+                          color={getPriorityColor(item.idPriority)}
+                          sx={{width:80}}
+                        />
                       </TableCell>
+
+                      <TableCell>{item.dueDate}</TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {item.nameStatus}
-                      </TableCell>
-                      <TableCell>
-                        {item.dueDate}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
+                        <Tooltip title="Edit task">
+                          <IconButton
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
                         <Tooltip title="Delete task">
                           <IconButton
                             onClick={() => handleDeleteClick(item.id)}
@@ -145,8 +170,11 @@ function TaskPage() {
       </Box>
 
       <TaskModal
+        title={modalTitle}
+        titleIcon={modalTitleIcon}
         open={isTaskModalOpen}
         handleClose={handleCloseTaskModal}
+        handleSave={handleSaveClick}
       />
     </div>
   );

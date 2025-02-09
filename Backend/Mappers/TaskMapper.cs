@@ -19,8 +19,8 @@ namespace Cytidel.Api.Mappers
                 IdPriority = entity.Priority.GetEnumValue(),  
                 IdStatus = entity.Status.GetEnumValue(),      
                 DueDate = entity.DueDate,
-                NameStatus= "",
-                NamePriority = ""
+                NameStatus= entity.Status.GetEnumDescription(),
+                NamePriority = entity.Priority.GetEnumDescription()
             };
         }
 
