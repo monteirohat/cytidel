@@ -66,6 +66,15 @@ Example:
 const BASE_URL = "https://127.0.0.1:7081/api";
 ```
 
+### Database
+
+For database purposes, SQLite was used, and the database file can be found at 
+
+```
+Backend/Data/Cytidel.db
+```
+
+
 ### Usage
 
 1. After both the backend and frontend are running, open your browser at http://localhost:3000.
