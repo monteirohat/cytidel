@@ -78,15 +78,17 @@ For backend tests, execute the command ```dotnet test```.
 ### Logins
 
 1. __User 1__
-```Name: André Monteiro```
-```Email: monteiro.hat@gmail.com```
+
+```Name: André Monteiro``` 
+```Email: monteiro.hat@gmail.com``` 
 ```Password: 12345``` 
 
 
 2. __User 2__
-```Name: Admin```
-```Email: admin@cytidel.com```
-```Password: 12345```
+
+```Name: Admin``` 
+```Email: admin@cytidel.com``` 
+```Password: 12345``` 
 
 ![Login](login.png)
 
