@@ -20,6 +20,10 @@ npm or yarn (package manager)
 - Node.js (version 16+ recommended)
 - npm or yarn
 
+### Description
+
+[Code Challenge Description](ChallengeDescription.pdf)
+
 ### Getting Started
 
 1. __Clone the Repository__
