@@ -81,7 +81,12 @@ Backend/Data/Cytidel.db
 
 ### Test
 1. __Backend Tests__
-For backend tests, execute the command ```dotnet test```.
+For backend tests, execute the command 
+
+```
+cd Backend/Cytidel.Tests
+dotnet test
+```
 
 ### Postman (WebApi)
 
