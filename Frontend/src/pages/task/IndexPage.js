@@ -28,6 +28,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PageNavbar from "../../components/PageNavbar";
 import GridSkeleton from "../../components/GridSkeleton";
 import { TaskModal } from "./TaskModal";
+import TaskStatusDashboard from "./TaskDashboard";
 
 // Services
 import {
@@ -103,11 +104,9 @@ function TaskPage() {
     }
   }, [isFetching, notification]);
 
-
   useEffect(() => {
     fetchMoreTasks();
   }, []);
-
 
   useEffect(() => {
     const container = containerRef.current;
@@ -218,6 +217,7 @@ function TaskPage() {
           buttons={pageButtons}
         />
         <Box mt={2} mx={3}>
+          <TaskStatusDashboard tasks={tasks} />
           {loading ? (
             <GridSkeleton />
           ) : (
