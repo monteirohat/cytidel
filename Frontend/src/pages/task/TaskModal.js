@@ -35,6 +35,8 @@ export const TaskModal = ({
     idStatus: 1,
   });
 
+  const [openConfirm, setOpenConfirm] = useState(false);
+
   useEffect(() => {
     if (editMode && task) {
       setFormData({
@@ -75,6 +77,11 @@ export const TaskModal = ({
 
     if (!valid) return;
 
+    if (formData.idPriority === "3") {
+      setOpenConfirm(true);
+      return;
+    }
+
     handleSave(formData);
 
     clearFields();
@@ -87,139 +94,191 @@ export const TaskModal = ({
 
   const clearFields = () => {
     setFormData({
-        id: null,
-        title: "",
-        description: "",
-        dueDate: "",
-        idPriority: 2,
-        idStatus: 1,
-      });
+      id: null,
+      title: "",
+      description: "",
+      dueDate: "",
+      idPriority: 2,
+      idStatus: 1,
+    });
+  };
+
+  const handleConfirmYes = () => {
+    handleSave(formData);
+    clearFields();
+    setOpenConfirm(false);
+  };
+
+  const handleConfirmNo = () => {
+    setOpenConfirm(false);
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          bgcolor: "background.paper",
-          borderRadius: "8px",
-          boxShadow: 24,
-          p: 4,
-          width: 600,
-          maxHeight: "80vh",
-          overflowY: "auto",
-        }}
-      >
-        <Typography variant="h6">
-          {titleIcon &&
-            React.createElement(titleIcon, {
-              sx: {
-                mr: 1, // margin-right
-                verticalAlign: "sub",
-              },
-            })}
+    <>
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            width: 600,
+            maxHeight: "80vh",
+            overflowY: "auto",
+          }}
+        >
+          <Typography variant="h6">
+            {titleIcon &&
+              React.createElement(titleIcon, {
+                sx: {
+                  mr: 1, // margin-right
+                  verticalAlign: "sub",
+                },
+              })}
 
-          {title}
-        </Typography>
-        <Divider sx={{ mt: 2, mb: 3 }} />
-        <Stack
-          spacing={2}
-          direction="column"
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            bgcolor: "#3c5a7f",
-            color: "#ffffff",
-          }}
-        >
-          Priority
-        </Stack>
-        <Stack
-          spacing={2}
-          direction="column"
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            mb: 2,
-            bgcolor: "rgb(236 242 255)",
-          }}
-        >
-          <RadioGroup
-            row
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="idPriority"
-            value={formData.idPriority}
+            {title}
+          </Typography>
+          <Divider sx={{ mt: 2, mb: 3 }} />
+          <Stack
+            spacing={2}
+            direction="column"
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              bgcolor: "#3c5a7f",
+              color: "#ffffff",
+            }}
+          >
+            Priority
+          </Stack>
+          <Stack
+            spacing={2}
+            direction="column"
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              mb: 2,
+              bgcolor: "rgb(236 242 255)",
+            }}
+          >
+            <RadioGroup
+              row
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="idPriority"
+              value={formData.idPriority}
+              onChange={handleChange}
+            >
+              <FormControlLabel value="1" control={<Radio />} label="Low" />
+              <FormControlLabel value="2" control={<Radio />} label="Medium" />
+              <FormControlLabel value="3" control={<Radio />} label="High" />
+            </RadioGroup>
+          </Stack>
+
+          <TextField
+            fullWidth
+            label="Title"
+            name="title"
+            variant="outlined"
+            size="small"
+            sx={{ mb: 2 }}
+            value={formData.title}
             onChange={handleChange}
-          >
-            <FormControlLabel value="1" control={<Radio />} label="Low" />
-            <FormControlLabel value="2" control={<Radio />} label="Medium" />
-            <FormControlLabel value="3" control={<Radio />} label="High" />
-          </RadioGroup>
-        </Stack>
+            error={!!titleError}
+            helperText={titleError}
+          />
 
-        <TextField
-          fullWidth
-          label="Title"
-          name="title"
-          variant="outlined"
-          size="small"
-          sx={{ mb: 2 }}
-          value={formData.title}
-          onChange={handleChange}
-          error={!!titleError}
-          helperText={titleError}
-        />
+          <TextField
+            fullWidth
+            label="Description"
+            name="description"
+            variant="outlined"
+            size="small"
+            sx={{ mb: 2 }}
+            value={formData.description}
+            onChange={handleChange}
+            error={!!descriptionError}
+            helperText={descriptionError}
+          />
 
-        <TextField
-          fullWidth
-          label="Description"
-          name="description"
-          variant="outlined"
-          size="small"
-          sx={{ mb: 2 }}
-          value={formData.description}
-          onChange={handleChange}
-          error={!!descriptionError}
-          helperText={descriptionError}
-        />
+          <TextField
+            fullWidth
+            label="Due Date"
+            name="dueDate"
+            type="datetime-local"
+            InputLabelProps={{
+              shrink: true, // Ensures the label stays above the input
+            }}
+            variant="outlined"
+            size="small"
+            sx={{ mb: 2 }}
+            value={formData.dueDate}
+            onChange={handleChange}
+            error={!!dueDateError}
+            helperText={dueDateError}
+          />
 
-        <TextField
-          fullWidth
-          label="Due Date"
-          name="dueDate"
-          type="datetime-local"
-          InputLabelProps={{
-            shrink: true, // Ensures the label stays above the input
-          }}
-          variant="outlined"
-          size="small"
-          sx={{ mb: 2 }}
-          value={formData.dueDate}
-          onChange={handleChange}
-          error={!!dueDateError}
-          helperText={dueDateError}
-        />
+          <Divider sx={{ mt: 2, mb: 3 }} />
 
-        <Divider sx={{ mt: 2, mb: 3 }} />
-
-        {/* Close Button */}
-        <Box sx={{ textAlign: "right", mt: 2 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onSave}
-            sx={{ mr: 1 }}
-          >
-            Save
-          </Button>
-          <Button variant="contained" color="secondary" onClick={handleClose}>
-            Close
-          </Button>
+          {/* Close Button */}
+          <Box sx={{ textAlign: "right", mt: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onSave}
+              sx={{ mr: 1 }}
+            >
+              Save
+            </Button>
+            <Button variant="contained" color="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
+      <Modal open={openConfirm} onClose={handleConfirmNo}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            width: 400,
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Confirm High Priority
+          </Typography>
+          <Typography sx={{ mb: 3 }}>
+            Are you sure you want to create the task as{" "}
+            <strong>High Priority</strong>?
+          </Typography>
+          <Box sx={{ textAlign: "right" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleConfirmYes}
+              sx={{ mr: 1 }}
+            >
+              Yes
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleConfirmNo}
+            >
+              No
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+    </>
   );
 };

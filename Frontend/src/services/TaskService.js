@@ -10,6 +10,16 @@ export async function getTasks() {
   return await response;
 }
 
+export async function getTasksPage(offset = 0, limit = 20) {
+  const endpoint = buildRouteWithParams(ENDPOINTS.TASK.PAGE, { offset, limit });
+
+  const response = await request({
+    endpoint: endpoint,
+    method: "GET",
+  });
+  return await response;
+}
+
 export async function getTaskById(id) {
   const endpoint = buildRouteWithParams(ENDPOINTS.TASK.BY_ID, { id });
 

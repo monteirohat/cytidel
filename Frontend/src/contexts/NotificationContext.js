@@ -40,8 +40,8 @@ export function NotificationProvider({ children }) {
             horizontal: "right",
           }}
           sx={{
-            bottom: `${index * 70 + 10}px !important`, // Calcula a posição de cada notificação
-            zIndex: 1400 + index, // Incrementa o zIndex para garantir a ordem
+            bottom: `${index * 70 + 10}px !important`, 
+            zIndex: 1400 + index, 
           }}
         >
           <Alert

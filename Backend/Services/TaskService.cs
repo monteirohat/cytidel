@@ -28,6 +28,12 @@ namespace Cytidel.Api.Services
             return entity.ToModel(); ;
         }
 
+         public async Task<IEnumerable<TaskModel>> GetAll(int offset, int limit)
+        {
+            var entity = await _taskRepository.GetAllAsync(offset, limit);
+            return entity.ToModel(); ;
+        }
+
         public async Task<TaskModel> GetById(Guid id)
         {
             var entity = await _taskRepository.GetByIdAsync(id);

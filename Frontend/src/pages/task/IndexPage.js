@@ -1,5 +1,5 @@
 // src/pages/TaskPage.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Table,
@@ -16,23 +16,22 @@ import {
   Select,
   MenuItem,
   Button,
-  
 } from "@mui/material";
 
-//Icons
+// Icons
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 
-//Components
+// Components
 import PageNavbar from "../../components/PageNavbar";
 import GridSkeleton from "../../components/GridSkeleton";
 import { TaskModal } from "./TaskModal";
 
-//Services
+// Services
 import {
-  getTasks,
+  getTasksPage,
   createTask,
   getTaskById,
   updateTask,
@@ -45,41 +44,91 @@ import {
   formatDate,
 } from "../../utils/Global";
 
-//Contexts
+// Contexts
 import { useNotification } from "../../contexts/NotificationContext";
 
 function TaskPage() {
-  const [loading, setLoading] = useState(true);
-  const [error] = useState(null);
   const notification = useNotification();
 
-  //Tasks
+  // States for loading and pagination
   const [tasks, setTasks] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const offsetRef = useRef(0);
+  const hasMoreRef = useRef(true);
+  const isFetchingRef = useRef(false);
+
+  // States for the Task Modal
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [modalTitleIcon, setModalTitleIcon] = useState("");
+  const [modalTitleIcon, setModalTitleIcon] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
 
+  // States for inline status editing
   const [editingStatusId, setEditingStatusId] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectOpen, setSelectOpen] = useState(false);
 
-  useEffect(() => {
-    async function fetchTasks() {
-      try {
-        const response = await getTasks();
-        setTasks(response);
-      } catch (error) {
-        notification.error(error.message);
-      } finally {
-        setLoading(false);
+  // Ref for the scrollable container of the table
+  const containerRef = useRef(null);
+
+  const fetchMoreTasks = useCallback(async () => {
+    if (!hasMoreRef.current || isFetchingRef.current) return;
+
+    isFetchingRef.current = true;
+    setIsFetching(true);
+    try {
+      // Fetch the next page with a limit of 10 records
+      const newTasks = await getTasksPage(offsetRef.current, 10);
+
+      // If fewer than 10 records are returned, it means there are no more
+      if (newTasks.length < 10) {
+        hasMoreRef.current = false;
+        setHasMore(false);
       }
+
+      setTasks((prevTasks) => [...prevTasks, ...newTasks]);
+
+      // Update the offset stored in the ref
+      offsetRef.current += 10;
+    } catch (error) {
+      notification.error("Failed to load tasks");
+    } finally {
+      setLoading(false);
+      setIsFetching(false);
+      isFetchingRef.current = false;
     }
+  }, [isFetching, notification]);
 
-    fetchTasks();
-  }, [notification]);
 
+  useEffect(() => {
+    fetchMoreTasks();
+  }, []);
+
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (
+        container.scrollTop + container.clientHeight >=
+          container.scrollHeight - 20 &&
+        hasMore &&
+        !isFetching
+      ) {
+        fetchMoreTasks();
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [fetchMoreTasks, hasMore, isFetching]);
+
+  // Actions for the Task Modal
   const handleNewClick = () => {
     setModalTitle("Add Task");
     setModalTitleIcon(AddIcon);
@@ -96,24 +145,25 @@ function TaskPage() {
       setModalTitleIcon(EditIcon);
       setEditMode(true);
       setIsTaskModalOpen(true);
-    } 
+    }
   };
 
   const handleSaveClick = async (task) => {
     try {
-      let message = "";
       if (editMode) {
         await updateTask(task);
-        message = "edited";
+        notification.success("Task edited successfully!");
       } else {
         await createTask(task);
-        message = "added";
+        notification.success("Task added successfully!");
       }
-
-      const updatedTasks = await getTasks();
-      setTasks(updatedTasks);
-
-      notification.success(`Task ${message} successfully!`);
+      // Reset the list to reload the updated tasks
+      setTasks([]);
+      offsetRef.current = 0;
+      hasMoreRef.current = true;
+      setHasMore(true);
+      fetchMoreTasks();
+      handleCloseTaskModal();
     } catch (error) {
       notification.error(error.message);
     } finally {
@@ -128,35 +178,36 @@ function TaskPage() {
   const handleDeleteClick = async (id) => {
     try {
       await deleteTask(id);
-      notification.success(`Task deleted successfully!`);
+      notification.success("Task deleted successfully!");
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (error) {
       notification.error(error.message);
     }
   };
 
-  const handleStatusClick = async (id, idStatus) => {
+  const handleStatusClick = async (id, newStatus) => {
     try {
-      // Call the API to change the status using a PATCH request
-      await changeStatusTask(id, idStatus);
-      // Optionally, refresh your tasks list or update the current item
-      // For example: setTasks(await getTasks());
+      await changeStatusTask(id, newStatus);
       notification.success("Status updated successfully!");
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === id ? { ...task, idStatus: newStatus } : task
+        )
+      );
     } catch (error) {
       notification.error(error.message);
     } finally {
-      // Exit edit mode for the status cell
       setEditingStatusId(null);
     }
   };
 
-  let pageButtons = [];
-
-  //Action buttons
-  pageButtons.push({
-    label: "Add Task",
-    icon: AddIcon,
-    onClick: handleNewClick,
-  });
+  const pageButtons = [
+    {
+      label: "Add Task",
+      icon: AddIcon,
+      onClick: handleNewClick,
+    },
+  ];
 
   return (
     <div>
@@ -169,40 +220,40 @@ function TaskPage() {
         <Box mt={2} mx={3}>
           {loading ? (
             <GridSkeleton />
-          ) : error ? (
-            <Typography color="error">{error}</Typography>
           ) : (
-            <TableContainer component={Paper}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ textAlign: "center", width: 150 }}>
-                      Status
-                    </TableCell>
-                    <TableCell>Title</TableCell>
-                    <TableCell>Description</TableCell>
-                    <TableCell>Due Date</TableCell>
-                    <TableCell sx={{ textAlign: "center", width: 90 }}>
-                      Priority
-                    </TableCell>
-                    <TableCell
-                      sx={{ textAlign: "center", width: 200 }}
-                    ></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tasks.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {editingStatusId === item.id ? (
-                         
+            <>
+              <TableContainer
+                component={Paper}
+                ref={containerRef} // Attach the ref to monitor scrolling
+                sx={{ maxHeight: "500px", overflow: "auto" }}
+              >
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell sx={{ textAlign: "center", width: 150 }}>
+                        Status
+                      </TableCell>
+                      <TableCell>Title</TableCell>
+                      <TableCell>Description</TableCell>
+                      <TableCell>Due Date</TableCell>
+                      <TableCell sx={{ textAlign: "center", width: 90 }}>
+                        Priority
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center", width: 200 }} />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {tasks.map((item) => (
+                      <TableRow key={item.id}>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          {editingStatusId === item.id ? (
                             <Select
-                             open={selectOpen}
-                             onOpen={() => setSelectOpen(true)}
-                             onClose={() => {
-                               setSelectOpen(false);
-                               setEditingStatusId(null);
-                             }}
+                              open={selectOpen}
+                              onOpen={() => setSelectOpen(true)}
+                              onClose={() => {
+                                setSelectOpen(false);
+                                setEditingStatusId(null);
+                              }}
                               size="small"
                               value={selectedStatus}
                               onChange={async (e) => {
@@ -212,66 +263,79 @@ function TaskPage() {
                                 setSelectOpen(false);
                                 setEditingStatusId(null);
                               }}
-                        
                             >
                               <MenuItem value={1}>Pending</MenuItem>
                               <MenuItem value={2}>In Progress</MenuItem>
                               <MenuItem value={3}>Completed</MenuItem>
                               <MenuItem value={4}>Archived</MenuItem>
                             </Select>
-                          
-                        ) : (
-                          <span
-                            onClick={() => {
-                              setEditingStatusId(item.id);
-                              setSelectedStatus(item.idStatus);
-                              setSelectOpen(true);
-                            }}
-                            style={{ cursor: "pointer" }}
+                          ) : (
+                            <span
+                              onClick={() => {
+                                setEditingStatusId(item.id);
+                                setSelectedStatus(item.idStatus);
+                                setSelectOpen(true);
+                              }}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {getStatusIcon(item.idStatus, item.nameStatus)}
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell>{item.title}</TableCell>
+                        <TableCell>{item.description}</TableCell>
+                        <TableCell>{formatDate(item.dueDate)}</TableCell>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          <Chip
+                            label={item.namePriority}
+                            color={getPriorityColor(item.idPriority)}
+                            sx={{ width: 80 }}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          <Tooltip title="Edit task">
+                            <IconButton
+                              onClick={() => handleEditClick(item.id)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Delete task">
+                            <IconButton
+                              onClick={() => handleDeleteClick(item.id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            color="success"
+                            disabled={item.idStatus === 3}
+                            onClick={() => handleStatusClick(item.id, 3)}
                           >
-                            {getStatusIcon(item.idStatus, item.nameStatus)}
-                          </span>
-                        )}
-                      </TableCell>
-                      <TableCell>{item.title}</TableCell>
-                      <TableCell>{item.description}</TableCell>
-                      <TableCell>{formatDate(item.dueDate)}</TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        <Chip
-                          label={item.namePriority}
-                          color={getPriorityColor(item.idPriority)}
-                          sx={{ width: 80 }}
-                        />
-                      </TableCell>
-
-                      <TableCell sx={{ textAlign: "center" }}>
-                        <Tooltip title="Edit task">
-                          <IconButton onClick={() => handleEditClick(item.id)}>
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete task">
-                          <IconButton
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          color="success"
-                          disabled={item.idStatus === 3}
-                          onClick={() => handleStatusClick(item.id, 3)}
+                            Done
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {isFetching && (
+                      <TableRow>
+                        <TableCell
+                          colSpan={6}
+                          sx={{ textAlign: "center", padding: "20px" }}
                         >
-                          Done
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                          <Typography>Loading more tasks...</Typography>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Typography variant="body2" align="right" sx={{ mt: 2 }}>
+                Total: {tasks.length}
+              </Typography>
+            </>
           )}
         </Box>
       </Box>

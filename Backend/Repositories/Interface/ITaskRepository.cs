@@ -7,7 +7,8 @@ namespace Cytidel.Api.Repositories.Interface
     {
         Task AddAsync(TaskEntity entity);
         Task UpdateAsync(TaskEntity entity);
-        Task<IEnumerable<TaskEntity>> GetAllAsync();
+         Task<IEnumerable<TaskEntity>> GetAllAsync();
+        Task<IEnumerable<TaskEntity>> GetAllAsync(int offset, int limit);
         Task<TaskEntity> GetByIdAsync(Guid id);
         Task<bool> DeleteByIdAsync(Guid id);
         Task<bool> ExistsAsync(Guid id);

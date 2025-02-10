@@ -27,6 +27,18 @@ namespace Cytidel.Api.Controllers
         }
 
         [Authorize]
+        [HttpGet("page")]
+        [ProducesResponseType(typeof(IEnumerable<TaskModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllPagination([FromQuery] int offset = 0, [FromQuery] int limit = 20)
+        {
+            var result = await _taskService.GetAll(offset, limit);
+            return Ok(result);
+        }
+
+
+
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(TaskModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

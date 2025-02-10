@@ -5,6 +5,7 @@ namespace Cytidel.Api.Services.Interface
     public interface ITaskService
     {
         Task<IEnumerable<TaskModel>> GetAll();
+        Task<IEnumerable<TaskModel>> GetAll(int offset, int limit);
         Task<TaskModel> GetById(Guid id);
         Task<TaskModel> Create(TaskCreateModel model);
         Task<TaskModel> Update(TaskUpdateModel model);

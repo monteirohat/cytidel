@@ -14,9 +14,21 @@ namespace Cytidel.Api.Repositories
             _dbContext = dbContext;
         }
 
+
+        public async Task<IEnumerable<TaskEntity>> GetAllAsync(int offset, int limit)
+        {
+            return await _dbContext.Tasks
+                .OrderBy(t => t.DueDate)
+                .ThenBy(t => t.Id)
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
+        }
+
+
         public async Task<TaskEntity> ChangeStatus(Guid id, TaskStatusEnum status)
         {
-            var task = await _dbContext.Tasks.FirstOrDefaultAsync(x=>x.Id == id);
+            var task = await _dbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
             if (task == null)
                 return null;
 
