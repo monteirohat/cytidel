@@ -388,6 +388,50 @@
 						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://127.0.0.1:7081/api/task/4c872274-7cab-411d-b837-71901cb416e5' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb250ZWlyby5oYXRAZ21haWwuY29tIiwianRpIjoiNDk0MzYwMjgtNTlhNy00ZDJiLThjZDQtM2Q4ZDY5MDMwZDI4IiwiZXhwIjoxNzM5MTQzMjMzLCJpc3MiOiJDeXRpZGVsQXBpIiwiYXVkIjoiQ3l0aWRlbFVpIn0.Fl-vDIoGW_7oPP-C4ZrOHb0m3eU1wcjZvzIMqzQ4co0'\n"
 					},
 					"response": []
+				},
+				{
+					"name": "GetAllPagination",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjeXRpZGVsLmNvbSIsImp0aSI6IjMyYzAzNTE5LWVhYjYtNGJlYS05NTU1LTBkY2U4YjZhMTJiYiIsImV4cCI6MTczOTE4ODQ4OCwiaXNzIjoiQ3l0aWRlbEFwaSIsImF1ZCI6IkN5dGlkZWxVaSJ9.YaKcFEYYTyxDk3L5Ui-WZJGulBsxXCh7h9-p-ylHzHg"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1:7081/api/task/page?offset=0&limit=20",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7081",
+							"path": [
+								"api",
+								"task",
+								"page"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://127.0.0.1:7081/api/task/page?offset=0&limit=20' \\\n  -H 'accept: text/plain' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjeXRpZGVsLmNvbSIsImp0aSI6IjMyYzAzNTE5LWVhYjYtNGJlYS05NTU1LTBkY2U4YjZhMTJiYiIsImV4cCI6MTczOTE4ODQ4OCwiaXNzIjoiQ3l0aWRlbEFwaSIsImF1ZCI6IkN5dGlkZWxVaSJ9.YaKcFEYYTyxDk3L5Ui-WZJGulBsxXCh7h9-p-ylHzHg'\n"
+					},
+					"response": []
 				}
 			]
 		},
